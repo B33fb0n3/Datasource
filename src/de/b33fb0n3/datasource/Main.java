@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Main extends JavaPlugin {
 
     private static Main plugin;
-    public static String Prefix = "§8┃ §aPrefix §8»";
+    public static String Prefix = "§8┃ §aPrefix §8» ";
     public ConsoleCommandSender console = getServer().getConsoleSender();
     private static File mysqlFile = new File("plugins/MySQL", "MySQL.yml");
     public static FileConfiguration mysqlConfig = YamlConfiguration.loadConfiguration(mysqlFile);
@@ -26,7 +26,7 @@ public class Main extends JavaPlugin {
 
         console.sendMessage(Main.Prefix + "§e[]=======================[]");
         console.sendMessage(Main.Prefix + "						 ");
-        console.sendMessage(Main.Prefix + "§2Coded by: §dB33fb0n3YT/1BlauNitrox");
+        console.sendMessage(Main.Prefix + "§2Coded by: §dB33fb0n3YT");
         loadConfig();
         mySQL = new MySQL();
         mySQL.connect();
@@ -61,7 +61,7 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         console.sendMessage(Main.Prefix+ "§e[]=======================[]");
         console.sendMessage(Main.Prefix + "						 ");
-        console.sendMessage(Main.Prefix+ "§2Coded by: §dB33fb0n3YT/1BlauNitrox");
+        console.sendMessage(Main.Prefix+ "§2Coded by: §dB33fb0n3YT");
         mySQL.disconnect();
         console.sendMessage(Main.Prefix + "§cPlugin wurde deaktiviert!");
         console.sendMessage(Main.Prefix+ "						 ");
@@ -82,7 +82,7 @@ public class Main extends JavaPlugin {
     }
 
     private void loadConfig() {
-        mysqlConfig.options().header("Trage hier deine MySQL Daten ein! Diese Config gilt für alle Plugins von Tommunity");
+        mysqlConfig.options().header("Trage hier deine MySQL Daten ein! Diese Config gilt für alle Plugins");
         mysqlConfig.addDefault("Host", "localhost");
         mysqlConfig.addDefault("Port", 3306);
         mysqlConfig.addDefault("Datenbank", "DEINEDATENBANK");

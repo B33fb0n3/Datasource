@@ -1,7 +1,6 @@
 package de.b33fb0n3.commands;
 
 import de.b33fb0n3.datasource.Main;
-import de.b33fb0n3.utils.MessageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +19,7 @@ public class CommandVorlage implements CommandExecutor {
                 } else
                     p.sendMessage(Main.Prefix + "§cBenutze: §e/[COMMAND]");
             } else
-                p.sendMessage(Main.Prefix + MessageManager.NOPERMISSION);
+                p.sendMessage(Main.Prefix +  "No PErm");
         }
 
         return false;
