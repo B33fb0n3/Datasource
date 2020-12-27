@@ -1,6 +1,7 @@
-package de.b33fb0n3.datasource;
+package de.b33fb0n3.pluginname.datasource;
 
-import de.b33fb0n3.utils.MySQL;
+import de.b33fb0n3.pluginname.commands.CommandVorlage;
+import de.b33fb0n3.pluginname.utils.MySQLConnectionPool;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
 
@@ -18,7 +20,11 @@ public class Main extends JavaPlugin {
     public ConsoleCommandSender console = getServer().getConsoleSender();
     private static File mysqlFile = new File("plugins/MySQL", "MySQL.yml");
     public static FileConfiguration mysqlConfig = YamlConfiguration.loadConfiguration(mysqlFile);
-    private MySQL mySQL;
+    private MySQLConnectionPool mySQLConnectionPool;
+
+    public static Logger logger() {
+        return plugin.getLogger();
+    }
 
     @Override
     public void onEnable() {
@@ -28,8 +34,7 @@ public class Main extends JavaPlugin {
         console.sendMessage(Main.Prefix + "						 ");
         console.sendMessage(Main.Prefix + "§2Coded by: §dB33fb0n3YT");
         loadConfig();
-        mySQL = new MySQL();
-        mySQL.connect();
+        mySQLConnectionPool = new MySQLConnectionPool(getConfig());
         console.sendMessage(Main.Prefix + "§aPlugin wurde aktiviert!");
         console.sendMessage(Main.Prefix + "						 ");
         console.sendMessage(Main.Prefix + "§e[]=======================[]");
@@ -55,17 +60,18 @@ public class Main extends JavaPlugin {
 
     private void initCommands() {
 //        getCommand("X").setExecutor(new X());
+        getCommand("command").setExecutor(new CommandVorlage(mySQLConnectionPool.getDataSource()));
     }
 
     @Override
     public void onDisable() {
-        console.sendMessage(Main.Prefix+ "§e[]=======================[]");
+        console.sendMessage(Main.Prefix + "§e[]=======================[]");
         console.sendMessage(Main.Prefix + "						 ");
-        console.sendMessage(Main.Prefix+ "§2Coded by: §dB33fb0n3YT");
-        mySQL.disconnect();
+        console.sendMessage(Main.Prefix + "§2Coded by: §dB33fb0n3YT");
+        mySQLConnectionPool.disconnect();
         console.sendMessage(Main.Prefix + "§cPlugin wurde deaktiviert!");
-        console.sendMessage(Main.Prefix+ "						 ");
-        console.sendMessage(Main.Prefix+ "§e[]=======================[]");
+        console.sendMessage(Main.Prefix + "						 ");
+        console.sendMessage(Main.Prefix + "§e[]=======================[]");
     }
 
     public static Main getPlugin() {
@@ -73,10 +79,10 @@ public class Main extends JavaPlugin {
     }
 
     public static void error(Exception e) {
-        Main.getPlugin().console.sendMessage(Main.Prefix+ "§cFEHLER: §b" + e.getLocalizedMessage());
-        for(int i = 0; i < e.getStackTrace().length; i++) {
-            if(e.getStackTrace()[i].toString().contains("de.b33fb0n3")) {
-                Main.getPlugin().console.sendMessage("§b"+ e.getStackTrace()[i]);
+        Main.getPlugin().console.sendMessage(Main.Prefix + "§cFEHLER: §b" + e.getLocalizedMessage());
+        for (int i = 0; i < e.getStackTrace().length; i++) {
+            if (e.getStackTrace()[i].toString().contains("de.b33fb0n3")) {
+                Main.getPlugin().console.sendMessage("§b" + e.getStackTrace()[i]);
             }
         }
     }
